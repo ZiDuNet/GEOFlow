@@ -43,10 +43,7 @@ services:
     restart: unless-stopped
 
   init:
-    image: geoflow-app-prod:latest
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.prod
+    image: crpi-kdrx8sxe4fzlfrwj.cn-hangzhou.personal.cr.aliyuncs.com/wushuo98/geoflow:latest
     container_name: geoflow-init-prod
     working_dir: /var/www/html
     env_file:
@@ -67,10 +64,7 @@ services:
     restart: "no"
 
   app:
-    image: geoflow-app-prod:latest
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.prod
+    image: crpi-kdrx8sxe4fzlfrwj.cn-hangzhou.personal.cr.aliyuncs.com/wushuo98/geoflow:latest
     container_name: geoflow-app-prod
     working_dir: /var/www/html
     env_file:
@@ -89,14 +83,13 @@ services:
     restart: unless-stopped
 
   web:
-    image: geoflow-web-prod:latest
-    build:
-      context: .
-      dockerfile: docker/nginx/Dockerfile.prod
+    image: nginx:1.27-alpine
     container_name: geoflow-web-prod
     ports:
       - "${WEB_PORT:-18080}:80"
     volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./public:/var/www/html/public:ro
       - ./storage:/var/www/html/storage:ro
     depends_on:
       app:
@@ -109,10 +102,7 @@ services:
     restart: unless-stopped
 
   queue:
-    image: geoflow-app-prod:latest
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.prod
+    image: crpi-kdrx8sxe4fzlfrwj.cn-hangzhou.personal.cr.aliyuncs.com/wushuo98/geoflow:latest
     container_name: geoflow-queue-prod
     working_dir: /var/www/html
     env_file:
@@ -129,10 +119,7 @@ services:
     restart: unless-stopped
 
   scheduler:
-    image: geoflow-app-prod:latest
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.prod
+    image: crpi-kdrx8sxe4fzlfrwj.cn-hangzhou.personal.cr.aliyuncs.com/wushuo98/geoflow:latest
     container_name: geoflow-scheduler-prod
     working_dir: /var/www/html
     env_file:
@@ -147,10 +134,7 @@ services:
     restart: unless-stopped
 
   reverb:
-    image: geoflow-app-prod:latest
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.prod
+    image: crpi-kdrx8sxe4fzlfrwj.cn-hangzhou.personal.cr.aliyuncs.com/wushuo98/geoflow:latest
     container_name: geoflow-reverb-prod
     working_dir: /var/www/html
     env_file:
